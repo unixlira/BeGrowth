@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Cadastro de Produtos</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<link rel="icon" type="image/png" href="/images/icons/favicon.ico"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+	<div class="container col-md-6">
+		<p class="text-right mt-2">
+			<span>Usuário: </span>
+			<span class="text-primary"><strong><%=nome%></strong></span><br>
+			<a href="/sair" class="btn btn-dark mt-2" >Sair</a>
+		</p>
+		<form action="/atualizar/<%=produto._id%>" method="POST">
+			<div class="mt-3">
+				<h1>Atualizar Produto</h1>
+			</div>
+			<div class="form-group mt-4">
+			  <label for="nomeProduto">Nome do Produto</label>
+			  <input type="text" class="form-control" id="nomeProduto" name="nomeProduto"  style="font-style:italic" value="<%=produto.nomeProduto%>">
+			</div>
+			<div class="form-group">
+				<label for="dataValidade">Data de Validade</label>
+				<input type="text" class="form-control" id="dataValidade" name="dataValidade" style="font-style:italic" value="<%=produto.dataValidade%>">
+			</div>
+			<div class="form-group">
+				<label for="localColeta">Local de Coleta</label>
+				<input type="text" class="form-control" id="localColeta" name="localColeta" style="font-style:italic" value="<%=produto.localColeta%>">
+			</div>
+			<button type="submit" class="btn btn-success" style="cursor:pointer;">Atualizar</button>
+		  </form>
+	</div>
+
+</body>
+</html>

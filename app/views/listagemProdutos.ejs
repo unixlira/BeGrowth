@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Be Growth</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div class="container col-md-7">
+		<p class="text-right mt-2">
+			<span>Usuário: </span>
+			<span class="text-primary"><strong><%=nome%></strong></span><br>
+			<a href="/sair" class="btn btn-dark mt-2" >Sair</a>
+		</p>
+		<div class="mt-3">
+			<h1>Listagem de Produtos</h1>
+			<a href="/produtos" class= "btn btn-info mt-3 mb-3">Você pode cadastrar produtos clicando aqui</a>
+		</div>
+		<form>	
+			<table class="table table-striped mt-5">
+				<thead>
+				  <tr>
+					<th scope="col">Produto</th>
+					<th scope="col">Local de Entrega</th>
+					<th scope="col">Data de Validade</th>
+					<th scope="col" class="text-center">Ações</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<%  if(produtos.length > 0 ) { %>
+						<% for(let i=0; i < produtos.length; i++){ %>
+							<tr>
+								<td><%=produtos[i].nomeProduto%></td>
+								<td><%=produtos[i].localColeta%></td>
+								<td><%=produtos[i].dataValidade%></td>
+								<td class="text-center">
+									<a href="/editar-produto/<%=produtos[i]._id%>" class="btn btn-primary">Editar</a>
+									<a href="/excluir-produto/<%=produtos[i]._id%>" class="btn btn-danger">Excluir</a>
+								</td>
+							</tr>
+						<% } %>
+					<%  } %>
+				</tbody>
+			</table>
+			<a href="/produtos" class="btn btn-dark btn-block mt-3 mb-5">Voltar</a>
+		</form>
+	</div>
+
+</body>
+</html>

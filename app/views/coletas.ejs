@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Be Growth</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div class="container col-md-6">
+		<p class="text-right mt-2">
+			<span>Usuário: </span>
+			<span class="text-primary"><strong><%=nome%></strong></span><br>
+			<a href="/sair" class="btn btn-dark mt-2" >Sair</a>
+		</p>
+		<div class="mt-3">
+			<h1>Produtos disponíves para Coleta</h1>
+		</div>
+		<form>	
+			<table id="tabelaProdutos" class="table table-striped mt-5">
+				<thead>
+				  <tr>
+					<th scope="col" class="text-center">Selecionar</th>
+					<th scope="col">Produto</th>
+					<th scope="col">Local de Entrega</th>
+					<th scope="col" class="text-center">Data de Validade</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <%  if(produtos.length > 0 ) { %>
+					<% for(let i=0; i < produtos.length; i++){ %>
+						<tr>
+							<th scope="row" class="text-center">
+								<input id="selecionado" type="checkbox"  name="[i][]" value="<%=produtos[i].nomeProduto%>">
+							</th>
+							<td id="nomeProduto"><%=produtos[i].nomeProduto%></td>
+							<td id="localColeta"><%=produtos[i].localColeta%></td>
+							<td id="dataValidade" class="text-center"><%=produtos[i].dataValidade%></td>
+						</tr>
+					<% } %>
+				<%  } %>
+				</tbody>
+			</table>
+			
+			<button id="botao" type="submit" class="btn btn-primary">Coletar</button>
+		</form>
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+
+	var tabela = document.getElementById("tabelaProdutos");
+	var linhas = tabela.getElementsByTagName("tr");
+
+	for(var i = 0; i < linhas.length; i++){
+		var linha = linhas[i];
+			linha.addEventListener("click", function(){
+			selLinha(this, false);
+			selLinha(this, true);
+		});
+	}
+
+	function selLinha(linha, multiplos){
+		if(!multiplos){
+			var linhas = linha.parentElement.getElementsByTagName("tr");
+				for(var i = 0; i < linhas.length; i++){
+					var linha_ = linhas[i];
+					linha_.classList.remove("selecionado");    
+				}
+		}
+		linha.classList.toggle("selecionado");
+	}
+
+	var btnVisualizar = document.getElementById("botao");
+
+	btnVisualizar.addEventListener("click", function(){
+		var selecionados = tabela.getElementsByClassName("selecionado");
+		if(selecionados.length < 1){
+			alert("Selecione pelo menos uma linha");
+			return false;
+		}
+		var dados = "";
+		for(var i = 0; i < selecionados.length; i++){
+			var selecionado = selecionados[i];
+			selecionado = selecionado.getElementsByTagName("td");
+			dados += '{'+ "nome:" + selecionado[0].innerHTML + ",data:" + selecionado[1].innerHTML + ",local:" + selecionado[2].innerHTML +'},';
+		}
+
+		var result = dados.substring(0,(dados.length - 1));
+
+		$.ajax({
+			method: "POST",
+			url: '/addEntrega',
+			data: result,
+			dataType: 'json',
+			}).success(function(result){
+				console.log("Successful!" + result);
+			}).fail(function(result){
+				console.log("Oops not working" + result);
+		});
+	});
+
+	
+</script>
+</body>
+</html>
